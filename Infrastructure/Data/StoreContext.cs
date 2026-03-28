@@ -2,7 +2,7 @@ using Core.Entities;
 using Infrastructure.Config;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infratructure.Data;
+namespace Infrastructure.Data;
 
 public class StoreContext(DbContextOptions options) : DbContext(options)
 {

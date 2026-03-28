@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-
+using Infrastructure.Data;
 #nullable disable
 
 namespace Infrastructure.Migrations
