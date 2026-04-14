@@ -1,0 +1,13 @@
+
+.custom-badge .mat-badge-content {
+    width: 24px;
+    height: 24px;
+    font-size: 14 px;
+    line-height: 24px;
+}
+
+.custom-badge .mat-icon{
+    font-size: 24px;
+    width: 32px;
+    height: 32px;
+}
