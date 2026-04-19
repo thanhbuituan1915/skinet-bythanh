@@ -9,7 +9,11 @@
   "projects": {
     "client": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "type": "Component"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
