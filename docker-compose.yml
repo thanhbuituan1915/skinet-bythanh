@@ -4,5 +4,18 @@ services:
     environment:
       ACCEPT_EULA: "Y"
       MSSQL_SA_PASSWORD: "Password@1"
-    ports: 
+    ports:
       - "1434:1433"
+    volumes:
+      - sql-data:/var/opt/mssql  # Thêm dấu cách sau dấu gạch ngang
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data         # Thêm dấu cách sau dấu gạch ngang
+
+volumes:
+  redis-data:
+  sql-data:
