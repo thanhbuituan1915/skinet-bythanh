@@ -47,7 +47,7 @@ public class AccountController(SignInManager<AppUser> signInManager) : BaseApiCo
         return NoContent();
     }
 
-    [Authorize]
+
     [HttpGet("user-info")]
     public async Task<ActionResult> GetUserInfo()
     {
@@ -66,7 +66,7 @@ public class AccountController(SignInManager<AppUser> signInManager) : BaseApiCo
 
     }
 
-    [HttpGet]
+    [HttpGet("auth-status")]
     public ActionResult GetAuthState()
     {
         return Ok(new { IsAuthenticated = User.Identity?.IsAuthenticated ?? false });
