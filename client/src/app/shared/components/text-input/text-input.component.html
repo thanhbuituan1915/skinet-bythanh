@@ -7,4 +7,20 @@
              @if(control.hasError('email')){
                 <mat-error>Email is invalid </mat-error>
             }
-        </mat-form-field> 
+        </mat-form-field>  
+       
+<!-- <mat-form-field class="w-full mb-3">
+  <mat-label>{{label}}</mat-label>
+
+  <input
+    matInput
+    [type]="type"
+    [value]="value"
+    (input)="onChange($any($event.target).value)"
+    (blur)="onTouched()"
+  />
+
+  @if(control.errors?.['required']) {
+    <mat-error>{{label}} is required</mat-error>
+  }
+</mat-form-field> -->
