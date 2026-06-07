@@ -75,9 +75,13 @@ namespace API.Controllers
 
             var orders = await unit.Repository<Order>().ListAsync(spec);
 
-            var orderToReturn = orders.Select(o => o.ToDto()).ToList();
+            // var orderToReturn = orders.Select(o => o.ToDto()).ToList();
 
-            return Ok(orders);
+            // return Ok(orders);
+
+            var orderDtos = orders.Select(o => o.ToDto()).ToList();
+
+            return Ok(orderDtos);
 
         }
 
