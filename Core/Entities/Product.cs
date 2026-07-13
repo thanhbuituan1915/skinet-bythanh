@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Core.Entities;
 
 public class Product : BaseEntity
@@ -10,4 +12,8 @@ public class Product : BaseEntity
     public required string Type { get; set; }
     public required string Brand { get; set; }
     public int QuantityInStock { get; set; }
+
+    public int SoldQuantity { get; set; } = 0;
+    [Range(0, 100)]
+    public int DiscountPercentage { get; set; } = 0;
 }

@@ -7,4 +7,6 @@ export type Product = {
   type: string;
   pictureUrl: string;
   quantityInStock: number;
+  soldQuantity: number;
+  discountPercentage: number;
 };

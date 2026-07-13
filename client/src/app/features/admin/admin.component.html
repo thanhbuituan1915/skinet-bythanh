@@ -77,9 +77,129 @@
       </div>
     </mat-tab>
 
-    <mat-tab label="Catalog">
-      Catalog placeholder
-    </mat-tab>
+    <mat-tab label="Products Management">
+  <div class="flex justify-between items-center mt-2 max-w-screen-2xl mx-auto px-4">
+    <h2 class="text-2xl font-semibold">Product Management Dashboard</h2>
+    
+    <!-- Grouped the Button and Filter together -->
+    <div class="flex gap-4 items-center mt-2">
+      
+      <!-- Add Product Button (Left of filter) -->
+      <button mat-flat-button color="primary" (click)="openProductForm()">
+        <mat-icon>add</mat-icon>
+        Add Product
+      </button>
+
+      <!-- Filter Dropdown -->
+      <!-- Added mb-[-1.25em] to fix Material's default padding so it aligns with the button -->
+      <mat-form-field appearance="outline" class="mb-[-1.25em]">
+        <mat-label>Filter by type</mat-label>
+        <mat-select (selectionChange)="onFilterSelect($event)">
+          @for (type of typeOptions; track $index) {
+            <mat-option [value]="type">{{type}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="p-4">
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="productDataSource" class="bg-white">
+
+        <!-- Picture Column -->
+        <ng-container matColumnDef="pictureUrl">
+          <th mat-header-cell *matHeaderCellDef> Picture </th>
+          <td mat-cell *matCellDef="let product">
+            <img [src]="product.pictureUrl" [alt]="product.name" class="h-12 w-12 object-cover rounded my-1">
+          </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let product"> {{product.name}} 
+
+          <span *ngIf="product.discountPercentage > 0" class="text-gray-400 line-through text-xs block">
+            {{ product.price | currency }}
+          </span>
+          
+          <!-- Calculate and show the Final Price -->
+          <span class="font-bold text-green-600">
+            {{ product.price - (product.price * (product.discountPercentage / 100)) | currency }}
+          </span>
+          </td>
+        </ng-container>
+
+        <!-- Price Column -->
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef> Price </th>
+          <td mat-cell *matCellDef="let product"> {{product.price | currency}} </td>
+        </ng-container>
+
+        <!-- Type Column -->
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef> Type </th>
+          <td mat-cell *matCellDef="let product"> {{product.type}} </td>
+        </ng-container>
+
+        <!-- Brand Column -->
+        <ng-container matColumnDef="brand">
+          <th mat-header-cell *matHeaderCellDef> Brand </th>
+          <td mat-cell *matCellDef="let product"> {{product.brand}} </td>
+        </ng-container>
+
+        <!-- Quantity in Stock Column -->
+        <ng-container matColumnDef="quantityInStock">
+          <th mat-header-cell *matHeaderCellDef> Quantity in Stock </th>
+          <td mat-cell *matCellDef="let product"> {{product.quantityInStock}} </td>
+        </ng-container>
+
+        <!-- Discount Percentage Column -->
+        <ng-container matColumnDef="discountPercentage">
+          <th mat-header-cell *matHeaderCellDef> Discount </th>
+          <td mat-cell *matCellDef="let product"> {{product.discountPercentage}}% </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let product">
+            <div class="flex gap-1">
+              <!-- View Detail (Eye Icon) -->
+              <button matTooltip="View Details" mat-icon-button routerLink="/shop/{{product.id}}">
+                <mat-icon color="accent">visibility</mat-icon>
+              </button>
+              
+              <!-- Update (3 Dots Icon) -->
+              <button matTooltip="Update" mat-icon-button (click)="openProductForm(product)">
+                <mat-icon color="primary">more_vert</mat-icon>
+              </button>
+              
+              <!-- Delete (Trash Icon) -->
+              <button matTooltip="Delete" mat-icon-button (click)="deleteProduct(product.id)">
+                <mat-icon color="warn">delete</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="productDisplayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: productDisplayedColumns;"></tr>
+      </table>
+
+      <!-- Paginator -->
+      <mat-paginator 
+        class="bg-white" 
+        [pageSizeOptions]="[5, 10, 20]"
+        [length]="totalProductItems"
+        [pageSize]="productParams.pageSize"
+        (page)="onProductPageChange($event)"
+        showFirstLastButtons>
+      </mat-paginator>
+    </div>
+  </div>
+</mat-tab>
     
     <mat-tab label="Customer service">
       Customer service

@@ -1,9 +1,9 @@
-using System;
 using System.ComponentModel.DataAnnotations;
+
 
 namespace API.DTOs;
 
-public class CreateProductDto
+public class UpdateProductDto
 {
     [Required]
     public string Name { get; set; } = string.Empty;
@@ -14,7 +14,8 @@ public class CreateProductDto
     [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than 0")]
     public decimal Price { get; set; }
 
-    [Required]
+    // IMPORTANT: No [Required] attribute here! 
+    // This allows admins to update text without uploading a new image.
     public IFormFile? PictureUrl { get; set; }
 
     [Required]

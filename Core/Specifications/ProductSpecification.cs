@@ -22,8 +22,12 @@ public class ProductSpecification : BaseSpecification<Product>
             case "priceDesc":
                 AddOrderByDescending(x => x.Price);
                 break;
-            default:
+            case "name":  // Thêm case mới này vào
                 AddOrderBy(x => x.Name);
+                break;
+            // default là sắp xếp theo số lượt bán     
+            default:
+                AddOrderByDescending(x => x.SoldQuantity);
                 break;
 
         }

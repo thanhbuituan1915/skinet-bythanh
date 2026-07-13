@@ -1,18 +1,53 @@
-@if (product ) {
-    <mat-card appearance="raised" routerLink="/shop/{{product.id}}" class="product-card">
-            <img src="{{product.pictureUrl}}" class="rounded-t-lg" alt="image of {{product.name}}">
-            <mat-card-content class="mt-2">
-                <h2 class="text-sm font-semibold uppercase">{{product.name}}</h2>
-                <p class ="font-light">{{product.price | currency}}</p>                
-            </mat-card-content>
-            <mat-card-actions (click)="$event.stopPropagation()">
-                <button mat-stroked-button class="w-full" (click)="cartService.addItemtoCart(product)">
-                    <mat-icon>add_shopping_cart</mat-icon>
-                        Add to cart
-                </button>
-            </mat-card-actions>
-        </mat-card>
+@if (product) {
+  <mat-card appearance="raised" routerLink="/shop/{{product.id}}" class="product-card">
+
+    <!-- Image Container with Badges -->
+    <div class="relative">
+      <img src="{{product.pictureUrl}}" class="rounded-t-lg" alt="image of {{product.name}}">
+      
+      <!-- Golden Discount Badge -->
+      @if (product.discountPercentage > 0) {
+        <span class="absolute top-2 left-2 bg-yellow-500 text-white font-bold text-xs px-2 py-1 rounded shadow-md border border-yellow-600 z-10 pointer-events-none">
+          -{{ product.discountPercentage }}%
+        </span>
+      }
+
+      <!-- Best Seller Badge -->
+      @if (product.soldQuantity >= 2) {
+        <span class="absolute top-2 right-2 bg-red-600 text-white text-xs font-bold uppercase tracking-wider py-1 px-3 rounded-full shadow-md z-10 pointer-events-none">
+          Best Seller
+        </span>
+      }
+    </div>
+
+    <!-- Product Info Content -->
+    <mat-card-content class="mt-2">
+      <h2 class="text-sm font-semibold uppercase">{{product.name}}</h2>
+      
+      <!-- Price Section -->
+      <div class="flex items-center gap-2 mt-1 mb-1">
+        
+        <!-- Final Calculated Price (Always visible) -->
+        <span class="font-bold text-lg text-gray-900">
+          {{ product.price - (product.price * (product.discountPercentage / 100)) | currency }}
+        </span>
+
+        <!-- Original Crossed-Out Price (Only visible if there is a discount) -->
+        @if (product.discountPercentage > 0) {
+          <span class="text-sm text-gray-400 line-through">
+            {{ product.price | currency }}
+          </span>
+        }
+      </div>
+    </mat-card-content>
+    
+    <!-- Action Buttons -->
+    <mat-card-actions (click)="$event.stopPropagation()">
+      <button mat-stroked-button class="w-full" (click)="cartService.addItemtoCart(product)">
+        <mat-icon>add_shopping_cart</mat-icon>
+        Add to cart
+      </button>
+    </mat-card-actions>
+
+  </mat-card>
 }
-
-
-

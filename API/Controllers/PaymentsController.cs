@@ -82,8 +82,26 @@ public class PaymentsController(IPaymentService paymentService,
             else
             {
                 order.Status = OrderStatus.PaymentReceived;
+
+                // TÍNH NĂNG MỚI: Tăng số lượng đã bán (SoldQuantity)
+                foreach (var item in order.OrderItems)
+                {
+                    // Lấy sản phẩm từ database dựa vào ID
+                    // Lưu ý: Tùy vào cấu trúc Entity của bạn, có thể là item.ItemOrdered.ProductId hoặc item.ProductId
+                    var productItem = await unit.Repository<Core.Entities.Product>().GetByIdAsync(item.ItemOrdered.ProductId);
+
+                    if (productItem != null)
+                    {
+                        // Cộng dồn số lượng khách vừa mua vào tổng lượt bán
+                        productItem.SoldQuantity += item.Quantity;
+
+                        // Cập nhật lại sản phẩm
+                        unit.Repository<Core.Entities.Product>().Update(productItem);
+                    }
+                }
             }
 
+            // Lệnh Complete() này của bạn sẽ lưu cùng lúc cả Trạng thái đơn hàng VÀ Lượt mua sản phẩm vào Database
             await unit.Complete();
 
 
