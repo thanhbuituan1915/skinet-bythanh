@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { Product } from '../../shared/models/product';
 import { ShopService } from '../../core/services/shop.service';
 import { ProductItemComponent } from './product-item/product-item.component';
@@ -35,6 +35,7 @@ import { EmptyStateComponent } from '../../shared/components/empty-state/empty-s
 export class ShopComponent implements OnInit {
   private shopService = inject(ShopService);
   private dialog = inject(MatDialog);
+  @ViewChild('search') searchTerm?: ElementRef;
   products?: Pagination<Product>;
   sortOptions = [
     { name: 'Best Sellers', value: '' },
@@ -69,6 +70,7 @@ export class ShopComponent implements OnInit {
   }
 
   onSearchChange() {
+    this.shopParams.search = this.searchTerm?.nativeElement.value;
     this.shopParams.pageNumber = 1; // Reset to first page on search change
     this.getProducts();
   }
