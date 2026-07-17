@@ -171,6 +171,29 @@ public class ProductsController(IUnitOfWork unit, IMapper mapper) : BaseApiContr
         return BadRequest("Problem deleting product");
     }
 
+    [Authorize(Roles = "Admin")]
+    // We added [FromQuery] int quantity = 50 to the parameters
+    [HttpGet("export-po/{id:int}")]
+    public async Task<ActionResult> ExportPurchaseOrder(int id, [FromQuery] int quantity = 50)
+    {
+        var product = await unit.Repository<Product>().GetByIdAsync(id);
+        if (product == null) return NotFound();
+
+        // Now we inject that dynamic {quantity} variable into the text!
+        var poContent = $@"--- PURCHASE ORDER ---
+ProductId: {product.Id}
+ProductName: {product.Name}
+OrderQuantity: {quantity}
+RequestDate: {DateTime.UtcNow:yyyy-MM-dd}
+ReceiveDate: [FILL_IN_DATE_HERE]
+----------------------";
+
+        var bytes = System.Text.Encoding.UTF8.GetBytes(poContent);
+        var fileName = $"PO_{product.Name.Replace(" ", "_")}_{DateTime.UtcNow:yyyyMMdd}.txt";
+
+        return File(bytes, "text/plain", fileName);
+    }
+
     [HttpGet("brands")]
 
     public async Task<ActionResult<IReadOnlyList<string>>> GetBrands()

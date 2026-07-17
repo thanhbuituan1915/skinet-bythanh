@@ -13,6 +13,7 @@ import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { Router, RouterLink } from '@angular/router';
 import { DialogService } from '../../core/services/dialog.service';
 import { ProductService } from '../../core/services/product.service';
+import { StockManagementComponent } from './stock-management/stock-management.component';
 
 @Component({
   selector: 'app-admin',
@@ -30,6 +31,7 @@ import { ProductService } from '../../core/services/product.service';
     MatTabsModule,
     MatIconButton,
     RouterLink,
+    StockManagementComponent,
   ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css',
